@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Script Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>🎬 YouTube Script Generator</h1>
+            <p>Create engaging video scripts powered by AI</p>
+            <div id="status-indicator" class="status"></div>
+        </header>
+
+        <div class="app-layout">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+                <div class="nav-menu">
+                    <button class="nav-item active" data-tab="generator">
+                        <span class="nav-icon">⚡</span>
+                        <span class="nav-label">Generator</span>
+                    </button>
+                    <button class="nav-item" data-tab="library">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-label">Library</span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Generator Tab -->
+                <div id="tab-generator" class="tab-content active">
+                    <section class="content-card">
+                        <h2>Generate New Script</h2>
+                        <form id="generate-form">
+                            <div class="form-group">
+                                <label for="title">Video Title:</label>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    placeholder="e.g., Every way to lose weight explained"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="word-count">Target Word Count:</label>
+                                    <input
+                                        type="number"
+                                        id="word-count"
+                                        name="word-count"
+                                        value="1250"
+                                        min="500"
+                                        max="3000"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="max-retries">Max Retries:</label>
+                                    <select id="max-retries" name="max-retries">
+                                        <option value="1">1</option>
+                                        <option value="2" selected>2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="enable-research" name="enable-research" checked>
+                                    Enable web research (recommended)
+                                </label>
+                            </div>
+
+                            <button type="submit" id="generate-btn" class="btn btn-primary">
+                                <span class="btn-text">Generate Script</span>
+                                <span class="btn-loading" style="display: none;">
+                                    <div class="spinner"></div>
+                                    Generating...
+                                </span>
+                            </button>
+                        </form>
+
+                        <!-- Generation Result -->
+                        <div id="generation-result" style="display: none;">
+                            <div class="result-header">
+                                <h3>Generated Script</h3>
+                                <div class="result-stats">
+                                    <span id="result-word-count"></span>
+                                    <span id="result-research-sources"></span>
+                                </div>
+                            </div>
+                            <div id="script-content" class="script-preview"></div>
+                            <div class="result-actions">
+                                <button id="copy-script" class="btn btn-secondary">Copy to Clipboard</button>
+                                <button id="download-script" class="btn btn-secondary">Download</button>
+                            </div>
+                        </div>
+
+                        <!-- Generation Error -->
+                        <div id="generation-error" style="display: none;" class="error">
+                            <h3>Generation Failed</h3>
+                            <p id="error-message"></p>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Library Tab -->
+                <div id="tab-library" class="tab-content">
+                    <section class="content-card">
+                        <div class="section-header">
+                            <h2>Scripts Library</h2>
+                            <button id="refresh-library" class="btn btn-secondary">Refresh</button>
+                        </div>
+
+                        <div id="scripts-loading" class="loading-state">
+                            <div class="spinner"></div>
+                            Loading scripts...
+                        </div>
+
+                        <div id="scripts-empty" style="display: none;" class="empty-state">
+                            <p>No scripts generated yet. Create your first script in the Generator tab!</p>
+                        </div>
+
+                        <div id="scripts-list" class="scripts-grid"></div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <!-- Script Modal -->
+        <div id="script-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title"></h3>
+                    <button id="close-modal" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-stats">
+                        <span id="modal-word-count"></span>
+                        <span id="modal-date"></span>
+                    </div>
+                    <div id="modal-script-content" class="script-content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-copy" class="btn btn-secondary">Copy</button>
+                    <button id="modal-download" class="btn btn-secondary">Download</button>
+                    <button id="modal-delete" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay -->
+        <div id="modal-overlay" class="modal-overlay" style="display: none;"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
